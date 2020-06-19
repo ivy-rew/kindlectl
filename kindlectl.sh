@@ -8,6 +8,14 @@ light(){ # dim paperwhite light. Accept int 0-25 ...
   ctlKindle com.lab126.powerd flIntensity $1
 }
 
+powerToggle(){
+  ctlKindle com.lab126.powerd powerButton 0
+}
+
+powerStatus(){
+  ctlKindle com.lab126.powerd status
+}
+
 ctlKindle(){ # change or read kindle ctrl property
   local entry="$1"
   local key="$2"
@@ -39,7 +47,7 @@ type dialog >/dev/null 2>&1 || { echo >&2 "installing dialog"; ipkg -t /opt/tmp 
 
 ## UI
 if [[ "$1" == "wifi" ]]; then
-  dialog --yesno "enable wifi" 10 30
+  dialog --yesno "enable wifi \nstate:$(wifiEnabled)" 10 30
   local answer=$?
   case $answer in
     0) echo "enabling";wifiEnabled 1;;
@@ -58,5 +66,14 @@ if [[ "$1" == "light" ]]; then
         echo "light $dim";light $dim
       fi 
      ;;
+  esac
+fi
+
+if [[ "$1" == "power" ]]; then
+  local current=$(powerStatus)
+  dialog --msgbox "toggle power? \n\n $current" 20 50
+  local answer=$?
+  case $answer in
+     0) echo "toggling power";powerToggle;;
   esac
 fi
