@@ -15,7 +15,8 @@ type dialog >/dev/null 2>&1 || { echo >&2 "installing dialog"; ipkg -t /opt/tmp 
 
 ## UI
 wifiUi(){
-  dialog --yesno "enable wifi \nstate:$(wifiEnabled)" 10 30
+  local interfaces=$(ifconfig | grep -A 1 -e "[wlan|usb]0 ")
+  dialog --yesno "enable wifi \nstate:$(wifiEnabled)\ninterface:\n$interfaces" 20 60
   local answer=$?
   case $answer in
     0) echo "enabling";wifiEnabled 1;;
