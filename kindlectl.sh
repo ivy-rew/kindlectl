@@ -59,6 +59,15 @@ terminalUi(){
   fi
 }
 
+screenTerminal(){
+  openTerm /mnt/optware/opt/bin/screen & 
+  while [ -z $(screen -list | grep "pts") ]; do
+    echo "."; sleep 1 #wait for kterm/screen start
+  done
+  . termInfo.sh
+  /mnt/optware/opt/bin/screen -xr
+}
+
 browseUi(){
   local uri=$(dialog --inputbox "select an URL" 10 30 http://www.amazon.com 2>&1 >/dev/tty)
   if [[ "$uri" != 255 ]]; then
@@ -85,7 +94,7 @@ if [[ "$1" != "test" ]]; then
     4) wifiUi;;
     5) echo "open VNC";vnc=$(./vncUi.sh);;
     6) terminalUi;;
-    7) openTerm /mnt/optware/opt/bin/screen & ;;
+    7) screenTerminal;;
     8) . termInfo.sh && /mnt/optware/opt/bin/screen -xr;;
     9) browseUi;;
   esac
