@@ -41,15 +41,17 @@ powerUi(){
   esac
 }
 
-if [[ "$1" == "dialog" ]]; then
+if [[ "$1" != "test" ]]; then
   local choice=$( dialog --menu "terminal kindle configurator" 0 0 0\
    1 "light"\
    2 "power"\
    3 "wifi"\
+   4 "vnc"\
     2>&1 >/dev/tty )
   case $choice in
     1) lightUi;;
     2) powerUi;;
     3) wifiUi;;
+    4) echo "open VNC";vnc=$(./vncUi.sh);;
   esac
 fi
