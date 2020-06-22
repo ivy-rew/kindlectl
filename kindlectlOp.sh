@@ -16,6 +16,14 @@ powerStatus(){
   ctlKindle com.lab126.powerd status
 }
 
+preventScreensaver(){ # 0/1 to disable/enable screensaver
+  ctlKindle com.lab126.powerd preventScreenSaver $1
+}
+
+orientation(){
+  ctlKindle com.lab126.winmgr orientationLock $1
+}
+
 ctlKindle(){ # change or read kindle ctrl property
   local entry="$1"
   local key="$2"
