@@ -51,6 +51,13 @@ screensaverUi(){
   esac
 }
 
+terminalUi(){
+  local cmd=$(dialog --inputbox "enter a command to run" 10 30 2>&1 >/dev/tty)
+  if [[ "$cmd" != 255 ]]; then
+    /mnt/us/extensions/kterm/bin/kterm.sh -o R -k 0 -s 6 -e $cmd
+  fi
+}
+
 browseUi(){
   local uri=$(dialog --inputbox "select an URL" 10 30 http://www.amazon.com 2>&1 >/dev/tty)
   if [[ "$uri" != 255 ]]; then
@@ -65,7 +72,8 @@ if [[ "$1" != "test" ]]; then
    3 "screensaver"\
    4 "wifi"\
    5 "vnc"\
-   6 "browse"\
+   6 "terminal"\
+   7 "browse"\
     2>&1 >/dev/tty )
   case $choice in
     1) lightUi;;
@@ -73,6 +81,7 @@ if [[ "$1" != "test" ]]; then
     3) screensaverUi;;
     4) wifiUi;;
     5) echo "open VNC";vnc=$(./vncUi.sh);;
-    6) browseUi;;
+    6) terminalUi;;
+    7) browseUi;;
   esac
 fi
