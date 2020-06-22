@@ -31,15 +31,12 @@ refresh(){ # screen draw-refresh
 }
 
 vncUi(){
+  eips -c
   eips 4 4 -h "CONNECTING TO VNC" "$@"
   local address=$(dialog --inputbox "connect to VNC [ip:port]" 10 30 192.168.15.201:5903 2>&1 >/dev/tty)
-  if [[ "$address" -eq 255 ]]; then
-    return;
-  fi
+  eips 4 5 -h "Address=$address"
   local passwd=$(dialog --passwordbox "password for ${address}" 10 30 2>&1 >/dev/tty)
-  if [[ "$passwd" -eq 255 ]]; then
-    return;
-  fi
+  eips 4 6 -h "got password... connecting"
   ./kindlevncviewer -config config.lua -password $passwd $address "$@" &
 }
 
