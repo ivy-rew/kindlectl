@@ -46,7 +46,7 @@ type dialog >/dev/null 2>&1 || { echo >&2 "installing dialog"; ipkg -t /opt/tmp 
 
 
 ## UI
-if [[ "$1" == "wifi" ]]; then
+wifiUi(){
   dialog --yesno "enable wifi \nstate:$(wifiEnabled)" 10 30
   local answer=$?
   case $answer in
@@ -54,26 +54,39 @@ if [[ "$1" == "wifi" ]]; then
     1) echo "disabling";wifiEnabled 0;;
     255) echo "abort";;
   esac
-fi
+}
 
-if [[ "$1" == "light" ]]; then
+lightUi(){
   local current=$(light)
   dialog --inputbox "select backlight dim [0-25]" 10 30 $current 2> tmpres.txt
   local answer=$?
   case $answer in
      0) dim=$(cat tmpres.txt)
-      if [[ "$dim" -gt 0 ]]; then
+      if [[ "$dim" -gt -1 ]]; then
         echo "light $dim";light $dim
       fi 
      ;;
   esac
-fi
+}
 
-if [[ "$1" == "power" ]]; then
+powerUi(){
   local current=$(powerStatus)
   dialog --msgbox "toggle power? \n\n $current" 20 50
   local answer=$?
   case $answer in
      0) echo "toggling power";powerToggle;;
+  esac
+}
+
+if [[ "$1" == "dialog" ]]; then
+  local choice=$( dialog --menu "configure kindl0e" 0 0 0\
+   1 "light"\
+   2 "power"\
+   3 "wifi"\
+    2>&1 >/dev/tty )
+  case $choice in
+    1) lightUi;;
+    2) powerUi;;
+    3) wifiUi;;
   esac
 fi
