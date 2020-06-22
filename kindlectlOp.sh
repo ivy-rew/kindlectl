@@ -24,6 +24,10 @@ orientation(){
   ctlKindle com.lab126.winmgr orientationLock $1
 }
 
+openBook(){ # qualified path to book (e.g. mnt/us/kindlectl/props.txt). Encode whitespace if any!
+  lipc-set-prop com.lab126.appmgrd start "app://com.lab126.booklet.reader/$1"
+}
+
 ctlKindle(){ # change or read kindle ctrl property
   local entry="$1"
   local key="$2"
