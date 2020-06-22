@@ -25,11 +25,19 @@ orientation(){
 }
 
 openBook(){ # qualified path to book (e.g. mnt/us/kindlectl/props.txt). Encode whitespace if any!
-  lipc-set-prop com.lab126.appmgrd start "app://com.lab126.booklet.reader/$1"
+  openApp "com.lab126.booklet.reader/$1"
+}
+
+openHome(){
+  openApp "com.lab126.booklet.home"
 }
 
 openBrowser(){ # accept one param stating to URL to open
-  lipc-set-prop com.lab126.appmgrd start "app://com.lab126.browser?view=$1"
+  openApp "com.lab126.browser?view=$1"
+}
+
+openApp(){
+  lipc-set-prop com.lab126.appmgrd start "app://$1"
 }
 
 openTerm(){ # accept on param stating a command to run in the new term
