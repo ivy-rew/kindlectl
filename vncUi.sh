@@ -7,26 +7,27 @@ cd /mnt/us/kindlevncviewer
 LD_LIBRARY_PATH=.
 export LD_LIBRARY_PATH
 
-orient=$(orientation)
-echo "orientiation is $orient"
-
-preventScreensaver 1
-orientation R
-
-refresh(){
-  while :
-  do
-    eips ''
-    usleep 80000
-  done
+init(){ #tune settings for VNC
+  orient=$(orientation)
+  echo "orientiation is $orient"
+  preventScreensaver 1
+  orientation R
 }
 
-leave(){
+leave(){ #restore settings+kill vnc
   echo 'bye bye'
   preventScreensaver 0
   orientation $orient
   pkill kindlevncviewer
   exit
+}
+
+refresh(){ # screen draw-refresh
+  while :
+  do
+    eips ''
+    usleep 80000
+  done
 }
 
 vncUi(){
@@ -42,6 +43,7 @@ vncUi(){
   ./kindlevncviewer -config config.lua -password $passwd $address "$@" &
 }
 
+init
 trap leave SIGINT
 vncUi
 refresh
