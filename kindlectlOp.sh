@@ -32,6 +32,10 @@ openBrowser(){ # accept one param stating to URL to open
   lipc-set-prop com.lab126.appmgrd start "app://com.lab126.browser?view=$1"
 }
 
+openTerm(){ # accept on param stating a command to run in the new term
+  /mnt/us/extensions/kterm/bin/kterm.sh -o R -k 0 -s 6 -e $1
+}
+
 ctlKindle(){ # change or read kindle ctrl property
   local entry="$1"
   local key="$2"

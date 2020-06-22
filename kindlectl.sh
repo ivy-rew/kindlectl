@@ -52,9 +52,9 @@ screensaverUi(){
 }
 
 terminalUi(){
-  local cmd=$(dialog --inputbox "enter a command to run" 10 30 2>&1 >/dev/tty)
+  local cmd=$(dialog --inputbox "enter a command to run" 10 30 $1 2>&1 >/dev/tty)
   if [[ "$cmd" != 255 ]]; then
-    /mnt/us/extensions/kterm/bin/kterm.sh -o R -k 0 -s 6 -e $cmd
+    openTerm $cmd
   fi
 }
 
@@ -73,7 +73,9 @@ if [[ "$1" != "test" ]]; then
    4 "wifi"\
    5 "vnc"\
    6 "terminal"\
-   7 "browse"\
+   7 "create shared terminal"\
+   8 "connect shared terminal"\
+   9 "browse"\
     2>&1 >/dev/tty )
   case $choice in
     1) lightUi;;
@@ -82,6 +84,8 @@ if [[ "$1" != "test" ]]; then
     4) wifiUi;;
     5) echo "open VNC";vnc=$(./vncUi.sh);;
     6) terminalUi;;
-    7) browseUi;;
+    7) openTerm /mnt/optware/opt/bin/screen & ;;
+    8) . termInfo.sh && /mnt/optware/opt/bin/screen -xr;;
+    9) browseUi;;
   esac
 fi
