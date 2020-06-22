@@ -41,17 +41,26 @@ powerUi(){
   esac
 }
 
+browseUi(){
+  local uri=$(dialog --inputbox "select an URL" 10 30 http://www.amazon.com 2>&1 >/dev/tty)
+  if [[ "$uri" != 255 ]]; then
+    openBrowser $uri
+  fi
+}
+
 if [[ "$1" != "test" ]]; then
   local choice=$( dialog --menu "terminal kindle configurator" 0 0 0\
    1 "light"\
    2 "power"\
    3 "wifi"\
    4 "vnc"\
+   5 "browse"\
     2>&1 >/dev/tty )
   case $choice in
     1) lightUi;;
     2) powerUi;;
     3) wifiUi;;
     4) echo "open VNC";vnc=$(./vncUi.sh);;
+    5) browseUi;;
   esac
 fi

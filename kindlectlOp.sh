@@ -28,6 +28,10 @@ openBook(){ # qualified path to book (e.g. mnt/us/kindlectl/props.txt). Encode w
   lipc-set-prop com.lab126.appmgrd start "app://com.lab126.booklet.reader/$1"
 }
 
+openBrowser(){ # accept one param stating to URL to open
+  lipc-set-prop com.lab126.appmgrd start "app://com.lab126.browser?view=$1"
+}
+
 ctlKindle(){ # change or read kindle ctrl property
   local entry="$1"
   local key="$2"
