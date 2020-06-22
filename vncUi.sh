@@ -8,6 +8,13 @@ LD_LIBRARY_PATH=.
 export LD_LIBRARY_PATH
 
 init(){ #tune settings for VNC
+  appId=$(ctlKindle com.lab126.appmgrd activeApp)
+  if [[ "$appId" != "com.lab126.booklet.reader" ]]; then
+    eips 1 1 -h "opening reader to allow orientation switch!"
+    openBook /mnt/us/kindlectl/props.txt
+    sleep 5
+  fi
+
   orient=$(orientation)
   echo "orientiation is $orient"
   preventScreensaver 1
