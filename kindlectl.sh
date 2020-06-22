@@ -41,6 +41,16 @@ powerUi(){
   esac
 }
 
+screensaverUi(){
+  dialog --yesno "prevent screensaver \nstate:$(preventScreensaver)" 10 30
+  local answer=$?
+  case $answer in
+    0) echo "enabling";preventScreensaver 1;;
+    1) echo "disabling";preventScreensaver 0;;
+    255) echo "abort";;
+  esac
+}
+
 browseUi(){
   local uri=$(dialog --inputbox "select an URL" 10 30 http://www.amazon.com 2>&1 >/dev/tty)
   if [[ "$uri" != 255 ]]; then
@@ -52,15 +62,17 @@ if [[ "$1" != "test" ]]; then
   local choice=$( dialog --menu "terminal kindle configurator" 0 0 0\
    1 "light"\
    2 "power"\
-   3 "wifi"\
-   4 "vnc"\
-   5 "browse"\
+   3 "screensaver"\
+   4 "wifi"\
+   5 "vnc"\
+   6 "browse"\
     2>&1 >/dev/tty )
   case $choice in
     1) lightUi;;
     2) powerUi;;
-    3) wifiUi;;
-    4) echo "open VNC";vnc=$(./vncUi.sh);;
-    5) browseUi;;
+    3) screensaverUi;;
+    4) wifiUi;;
+    5) echo "open VNC";vnc=$(./vncUi.sh);;
+    6) browseUi;;
   esac
 fi
