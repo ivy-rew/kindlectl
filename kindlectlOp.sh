@@ -24,6 +24,10 @@ orientation(){
   ctlKindle com.lab126.winmgr orientationLock $1
 }
 
+screenshot(){
+  ctlKindle com.lab126.system takeScreenShot 1
+}
+
 openBook(){ # qualified path to book (e.g. mnt/us/kindlectl/props.txt). Encode whitespace if any!
   openApp "com.lab126.booklet.reader/$1"
 }

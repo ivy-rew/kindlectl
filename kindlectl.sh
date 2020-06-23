@@ -81,10 +81,10 @@ if [[ "$1" != "test" ]]; then
    2 "power"\
    3 "screensaver"\
    4 "wifi"\
-   5 "vnc"\
-   6 "terminal"\
-   7 "create shared terminal"\
-   8 "connect shared terminal"\
+   5 "screenshot"\
+   6 "vnc"\
+   7 "terminal"\
+   8 "create shared terminal"\
    9 "browse"\
     2>&1 >/dev/tty )
   case $choice in
@@ -92,10 +92,10 @@ if [[ "$1" != "test" ]]; then
     2) powerUi;;
     3) screensaverUi;;
     4) wifiUi;;
-    5) echo "open VNC";vnc=$(./vncUi.sh);;
-    6) terminalUi;;
-    7) screenTerminal;;
-    8) . termInfo.sh && /mnt/optware/opt/bin/screen -xr;;
+    5) screenshot; ls -l /mnt/us/screenshot_*;;
+    6) echo "open VNC";vnc=$(./vncUi.sh);;
+    7) terminalUi;;
+    8) screenTerminal;;
     9) browseUi;;
   esac
 fi
