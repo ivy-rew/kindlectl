@@ -45,7 +45,13 @@ openApp(){
 }
 
 openTerm(){ # accept on param stating a command to run in the new term
-  /mnt/us/extensions/kterm/bin/kterm.sh -o R -k 0 -s 6 -e $1
+  local kterm="/mnt/us/extensions/kterm/bin/kterm.sh"
+  if [ ! -f $kterm ]; then
+    echo "Kindle Terminal seems not to be installed in path ${kterm}"
+    echo "visit https://www.fabiszewski.net/kindle-terminal/ to get it."
+    exit 2
+  fi
+  $kterm -o R -k 0 -s 6 -e $1
 }
 
 ctlKindle(){ # change or read kindle ctrl property
