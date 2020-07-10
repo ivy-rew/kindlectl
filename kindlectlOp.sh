@@ -28,15 +28,17 @@ screenshot(){
   ctlKindle com.lab126.system takeScreenShot 1
 }
 
-openBook(){ # qualified path to book (e.g. mnt/us/kindlectl/props.txt). Encode whitespace if any!
-  openApp "com.lab126.booklet.reader/$1"
+openBook(){ # qualified path to book (e.g. mnt/us/kindlectl/props.txt).
+  alias urlencode='python -c "import sys, urllib as ul; print ul.pathname2url(sys.argv[1])"'
+  book=$(urlencode "$1")
+  openApp "com.lab126.booklet.reader/$book"
 }
 
 openHome(){
   openApp "com.lab126.booklet.home"
 }
 
-openBrowser(){ # accept one param stating to URL to open
+openBrowser(){ # accept one param stating the URL to open
   openApp "com.lab126.browser?view=$1"
 }
 
@@ -44,7 +46,7 @@ openApp(){
   lipc-set-prop com.lab126.appmgrd start "app://$1"
 }
 
-openTerm(){ # accept on param stating a command to run in the new term
+openTerm(){ # accept one param stating a command to run in the new term
   local kterm="/mnt/us/extensions/kterm/bin/kterm.sh"
   if [ ! -f $kterm ]; then
     echo "Kindle Terminal seems not to be installed in path ${kterm}"
