@@ -2,8 +2,12 @@
 
 . kindlectlOp.sh
 
-#cd $(dirname "$0")
-cd /mnt/us/kindlevncviewer
+vncDir="/mnt/us/kindlevncviewer"
+if [ ! -d "$vncDir" ]; then
+  echo "Kindle VNC Viewer seem not to be present in $vncDir"
+  echo "Visit https://www.mobileread.com/forums/showthread.php?t=150434 to get it."
+fi
+cd "$vncDir"
 LD_LIBRARY_PATH=.
 export LD_LIBRARY_PATH
 
