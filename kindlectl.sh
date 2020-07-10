@@ -75,6 +75,13 @@ browseUi(){
   fi
 }
 
+readBookUi(){
+  local bookpath=$(dialog --fselect "/mnt/us/documents/" 20 150  2>&1 >/dev/tty)
+  if [[ "$bookpath" != 255 ]]; then
+    openBook "$bookpath"
+  fi
+}
+
 if [[ "$1" != "test" ]]; then
   local choice=$( dialog --menu "terminal kindle configurator" 0 0 0\
    1 "light"\
@@ -86,6 +93,7 @@ if [[ "$1" != "test" ]]; then
    7 "terminal"\
    8 "create shared terminal"\
    9 "browse"\
+   10 "readBook"\
     2>&1 >/dev/tty )
   case $choice in
     1) lightUi;;
@@ -97,5 +105,6 @@ if [[ "$1" != "test" ]]; then
     7) terminalUi;;
     8) screenTerminal;;
     9) browseUi;;
+    10) readBookUi;;
   esac
 fi

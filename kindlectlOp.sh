@@ -28,10 +28,15 @@ screenshot(){
   ctlKindle com.lab126.system takeScreenShot 1
 }
 
+path2url(){
+  bookUrl=$(python -c "import sys, urllib as ul; print ul.pathname2url('$1')")
+  echo "$bookUrl"
+}
+
 openBook(){ # qualified path to book (e.g. mnt/us/kindlectl/props.txt).
-  alias urlencode='python -c "import sys, urllib as ul; print ul.pathname2url(sys.argv[1])"'
-  book=$(urlencode "$1")
-  openApp "com.lab126.booklet.reader/$book"
+  thebook=$(path2url "$1")
+  echo "opening book: $thebook"
+  openApp "com.lab126.booklet.reader/$thebook"
 }
 
 openHome(){
